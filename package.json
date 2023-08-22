@@ -1,5 +1,5 @@
 {
-  "name": "react-wordcloud",
+  "name": "react-wordcloud-fork",
   "version": "1.2.7",
   "description": "Simple React + D3 wordcloud component with powerful features.",
   "license": "MIT",
@@ -7,6 +7,7 @@
   "repository": "chrisrzhou/react-wordcloud",
   "bugs": "https://github.com/chrisrzhou/react-wordcloud/issues",
   "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
+  "private": false,
   "keywords": [
     "react",
     "wordcloud",
@@ -19,8 +20,7 @@
     "clean": "rm -rf dist",
     "clean:docs": "rm -rf .docz",
     "docs": "docz dev",
-    "lint": "xo --fix; tsc",
-    "prepare": "npm run clean; npm run build"
+    "lint": "xo --fix; tsc"
   },
   "main": "dist/index.js",
   "module": "dist/index.module.js",
@@ -64,12 +64,7 @@
     "xo": "^0.32.1"
   },
   "peerDependencies": {
-    "react": "^16.13.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm run prepare && npm run lint"
-    }
+    "react": "^16.13.0 || ^17.0.0 || ^18.0.0"
   },
   "prettier": {
     "bracketSpacing": true,
