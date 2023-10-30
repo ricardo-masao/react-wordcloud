@@ -17,13 +17,13 @@ import {
   rotate,
 } from './utils';
 
-export function render({ callbacks, options, random, selection, words }) {
+export function render({ callbacks, options, random, selection, words, onRendered }) {
   const {
     getWordColor,
     getWordTooltip,
     onWordClick,
-    onWordMouseOver,
     onWordMouseOut,
+    onWordMouseOver,
   } = callbacks;
   const {
     colors,
@@ -42,6 +42,7 @@ export function render({ callbacks, options, random, selection, words }) {
   // Load words
   let tooltipInstance;
   const vizWords = selection.selectAll('text').data(words);
+  
   vizWords.join(
     enter => {
       let text = enter
@@ -51,36 +52,36 @@ export function render({ callbacks, options, random, selection, words }) {
             onWordClick(word, event);
           }
         })
-        .on('mouseover', word => {
-          if (
-            enableTooltip &&
-            (!tooltipInstance || tooltipInstance.isDestroyed)
-          ) {
-            tooltipInstance = tippy(event.target, {
-              animation: 'scale',
-              arrow: true,
-              content: () => getWordTooltip(word),
-              onHidden: (instance) => {
-                instance.destroy();
-                tooltipInstance = null;
-              },
-              ...tooltipOptions,
-            });
-          }
+        // .on('mouseover', word => {
+        //   if (
+        //     enableTooltip &&
+        //     (!tooltipInstance || tooltipInstance.isDestroyed)
+        //   ) {
+        //     tooltipInstance = tippy(event.target, {
+        //       animation: 'scale',
+        //       arrow: true,
+        //       content: () => getWordTooltip(word),
+        //       onHidden: (instance) => {
+        //         instance.destroy();
+        //         tooltipInstance = null;
+        //       },
+        //       ...tooltipOptions,
+        //     });
+        //   }
 
-          if (onWordMouseOver) {
-            onWordMouseOver(word, event);
-          }
-        })
-        .on('mouseout', word => {
-          if (tooltipInstance && !tooltipInstance.state.isVisible) {
-            tooltipInstance.destroy();
-          }
+        //   if (onWordMouseOver) {
+        //     onWordMouseOver(word, event);
+        //   }
+        // })
+        // .on('mouseout', word => {
+        //   if (tooltipInstance && !tooltipInstance.state.isVisible) {
+        //     tooltipInstance.destroy();
+        //   }
 
-          if (onWordMouseOut) {
-            onWordMouseOut(word, event);
-          }
-        })
+        //   if (onWordMouseOut) {
+        //     onWordMouseOut(word, event);
+        //   }
+        // })
         .attr('cursor', onWordClick ? 'pointer' : 'default')
         .attr('fill', getFill)
         .attr('font-family', fontFamily)
@@ -122,6 +123,8 @@ export function render({ callbacks, options, random, selection, words }) {
         .remove();
     },
   );
+
+  onRendered(selection)
 }
 
 export function layout({
@@ -131,6 +134,7 @@ export function layout({
   selection,
   size,
   words,
+  onRendered
 }) {
   const MAX_LAYOUT_ATTEMPTS = 10;
   const SHRINK_FACTOR = 0.95;
@@ -225,6 +229,7 @@ export function layout({
             random,
             selection,
             words: computedWords,
+            onRendered
           });
         }
       })

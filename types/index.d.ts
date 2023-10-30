@@ -20,6 +20,8 @@ type WordToStringCallback = (word: Word) => void;
 
 type WordEventCallback = (word: Word, event?: MouseEvent) => void;
 
+type WordClickEventCallback = (word: WordItem) => void;
+
 type Optional<T> = {
   [P in keyof T]?: T[P];
 };
@@ -39,7 +41,7 @@ export interface Callbacks {
   /**
    * Capture the word and mouse event on click.
    */
-  onWordClick?: WordEventCallback;
+  onWordClick?: WordClickEventCallback;
   /**
    * Capture the word and mouse event on mouse-out.
    */
@@ -51,6 +53,11 @@ export interface Callbacks {
 }
 
 export type CallbacksProp = Optional<Callbacks>;
+
+export type WordItem = {
+  element: HTMLElement
+  props: any
+}
 
 export interface Options {
   /**
@@ -156,6 +163,11 @@ export interface Props {
    * An array of word.  A word is an object that must contain the 'text' and 'value' keys.
    */
   words: Word[];
+
+  /**
+   * An array of selected words
+   */
+  selectedWordsCloud: WordItem[];
 }
 
 export interface Word {
