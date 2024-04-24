@@ -127,7 +127,7 @@ function ReactWordCloud({
         boxSizing: "border-box",
         padding: "2px 4px",
         position: "absolute",
-        fontSize: "7px",
+        fontSize: "7px", // TODO GIO - Mudar o tamanho da font aqui via props
         fontFamily: fontFamily,
         right: hasRotate ? `${Math.abs(fontSizes[0] - fontSize) / 2}px` : "0px",
         bottom: hasRotate ? '5px': `${(fontSizes[0] - fontSize) / 2}px`, // Quanto maior a font, maior o bottom NEGATIVO
