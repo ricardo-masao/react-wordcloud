@@ -116,7 +116,7 @@ function ReactWordCloud({
       const svg = parentElement.parentElement
       const { left:svgLeft, top:svgTop } = svg.getBoundingClientRect();
       const margin = { left: parentElementLeft - svgLeft, top: parentElementTop - svgTop}
-      const { fontSizes, fontFamily } = options;
+      const { fontSizes, fontFamily, tagFontSize } = options;
       const fontSize = t.props.size;
       const hasRotate = t.element.getAttribute("transform")?.includes("rotate")
 
@@ -127,7 +127,7 @@ function ReactWordCloud({
         boxSizing: "border-box",
         padding: "2px 4px",
         position: "absolute",
-        fontSize: "7px",
+        fontSize: tagFontSize || "7px",
         fontFamily: fontFamily,
         right: hasRotate ? `${Math.abs(fontSizes[0] - fontSize) / 2}px` : "0px",
         bottom: hasRotate ? '5px': `${(fontSizes[0] - fontSize) / 2}px`, // Quanto maior a font, maior o bottom NEGATIVO
