@@ -1,6 +1,6 @@
 {
   "name": "react-wordcloud-fork",
-  "version": "1.2.892",
+  "version": "1.2.898",
   "description": "Simple React + D3 wordcloud component with powerful features.",
   "license": "MIT",
   "homepage": "https://react-wordcloud.netlify.com/",
@@ -20,7 +20,8 @@
     "clean": "rm -rf dist",
     "clean:docs": "rm -rf .docz",
     "docs": "docz dev",
-    "lint": "xo --fix; tsc"
+    "lint": "xo --fix; tsc",
+    "pub": "npm run clean && npm run build && npm publish"
   },
   "main": "dist/index.js",
   "module": "dist/index.module.js",
