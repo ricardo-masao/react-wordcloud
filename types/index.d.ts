@@ -168,6 +168,11 @@ export interface Props {
    * An array of selected words
    */
   selectedWordsCloud: WordItem[];
+
+  /**
+   * An array of words to block
+   */
+  wordsToBlock?: string[];
 }
 
 export interface Word {
