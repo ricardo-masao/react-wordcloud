@@ -43,6 +43,7 @@ function ReactWordCloud({
   words,
   selectedWordsCloud,
   wordsToBlock,
+  wordsToHighlight,
   ...rest
 }) {
   const [ref, selection, size] = useResponsiveSvgSelection(
@@ -108,6 +109,10 @@ function ReactWordCloud({
         .attr("blocked", function() {
           const label = this.innerHTML;
           return wordsToBlock?.includes(label) ? "true" : "";
+        })
+        .attr("name", function() {
+          const label = this.innerHTML;
+          return wordsToHighlight?.find((item) => item.text === label)?.name || "";
         })
         .on("click", function(e, d) {
           const { onWordClick } = callbacks;
