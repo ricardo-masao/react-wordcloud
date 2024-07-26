@@ -112,7 +112,9 @@ function ReactWordCloud({
         })
         .attr("name", function() {
           const label = this.innerHTML;
-          return wordsToHighlight?.find((item) => item.text === label)?.name || "";
+          return (
+            wordsToHighlight?.find(item => item.text === label)?.name || ""
+          );
         })
         .on("click", function(e, d) {
           const { onWordClick } = callbacks;
@@ -130,56 +132,62 @@ function ReactWordCloud({
   }, []);
 
   const tags = useMemo(() => {
-    return selectedWordsCloud.map(t => {
-      const { parentElement } = t.element;
-      const {
-        left: elementLeft,
-        top: elementTop,
-        width: elementWidth,
-      } = t.element.getBoundingClientRect();
-      const {
-        left: parentElementLeft,
-        top: parentElementTop,
-      } = parentElement.getBoundingClientRect();
-      const svg = parentElement.parentElement;
-      const { left: svgLeft, top: svgTop } = svg.getBoundingClientRect();
-      const margin = {
-        left: parentElementLeft - svgLeft,
-        top: parentElementTop - svgTop,
-      };
-      const { fontSizes, fontFamily, tagFontSize } = options;
-      const fontSize = t.props.size;
-      const hasRotate = t.element.getAttribute("transform")?.includes("rotate");
+    return selectedWordsCloud
+      .filter(t => t.element)
+      .map(t => {
+        const { parentElement } = t.element;
+        const {
+          left: elementLeft,
+          top: elementTop,
+          width: elementWidth,
+        } = t.element.getBoundingClientRect();
+        const {
+          left: parentElementLeft,
+          top: parentElementTop,
+        } = parentElement.getBoundingClientRect();
+        const svg = parentElement.parentElement;
+        const { left: svgLeft, top: svgTop } = svg.getBoundingClientRect();
+        const margin = {
+          left: parentElementLeft - svgLeft,
+          top: parentElementTop - svgTop,
+        };
+        const { fontSizes, fontFamily, tagFontSize } = options;
+        const fontSize = t.props.size;
+        const hasRotate = t.element
+          .getAttribute("transform")
+          ?.includes("rotate");
 
-      const tagStyle = {
-        backgroundColor: "#FFF",
-        border: "1px solid",
-        borderRadius: "20px",
-        boxSizing: "border-box",
-        padding: "2px 4px",
-        position: "absolute",
-        fontSize: tagFontSize || "7px",
-        fontFamily: fontFamily,
-        right: hasRotate ? `${Math.abs(fontSizes[0] - fontSize) / 2}px` : "0px",
-        bottom: hasRotate ? "5px" : `${(fontSizes[0] - fontSize) / 2}px`, // Quanto maior a font, maior o bottom NEGATIVO
-      };
+        const tagStyle = {
+          backgroundColor: "#FFF",
+          border: "1px solid",
+          borderRadius: "20px",
+          boxSizing: "border-box",
+          padding: "2px 4px",
+          position: "absolute",
+          fontSize: tagFontSize || "7px",
+          fontFamily: fontFamily,
+          right: hasRotate
+            ? `${Math.abs(fontSizes[0] - fontSize) / 2}px`
+            : "0px",
+          bottom: hasRotate ? "5px" : `${(fontSizes[0] - fontSize) / 2}px`, // Quanto maior a font, maior o bottom NEGATIVO
+        };
 
-      const containerTagStyle = {
-        position: "absolute",
-        left: `${elementLeft - parentElementLeft + margin.left}px`,
-        top: `${elementTop - parentElementTop + margin.top}px`,
-        textAlign: "right",
-        width: elementWidth,
-      };
+        const containerTagStyle = {
+          position: "absolute",
+          left: `${elementLeft - parentElementLeft + margin.left}px`,
+          top: `${elementTop - parentElementTop + margin.top}px`,
+          textAlign: "right",
+          width: elementWidth,
+        };
 
-      return (
-        // @ts-ignore
-        <span style={containerTagStyle}>
-          {/*@ts-ignore*/}
-          <span style={tagStyle}>{t.props.value}</span>
-        </span>
-      );
-    });
+        return (
+          // @ts-ignore
+          <span style={containerTagStyle}>
+            {/*@ts-ignore*/}
+            <span style={tagStyle}>{t.props.value}</span>
+          </span>
+        );
+      });
   }, [selectedWordsCloud, rendered]);
 
   useEffect(() => {
