@@ -1,5 +1,5 @@
-import { EnterElement, Selection as d3Selection } from 'd3-selection';
-import { Props as TippyProps } from 'tippy.js';
+import { EnterElement, Selection as d3Selection } from "d3-selection";
+import { Props as TippyProps } from "tippy.js";
 
 /**
  * Types
@@ -8,13 +8,13 @@ type AttributeValue = string | WordToStringCallback;
 
 type MinMaxPair = [number, number];
 
-type Scale = 'linear' | 'log' | 'sqrt';
+type Scale = "linear" | "log" | "sqrt";
 
 type Selection = d3Selection<SVGElement, Word, SVGElement, Word>;
 
 type Enter = d3Selection<EnterElement, Word, SVGElement, Word>;
 
-type Spiral = 'archimedean' | 'rectangular';
+type Spiral = "archimedean" | "rectangular";
 
 type WordToStringCallback = (word: Word) => void;
 
@@ -55,9 +55,9 @@ export interface Callbacks {
 export type CallbacksProp = Optional<Callbacks>;
 
 export type WordItem = {
-  element: HTMLElement
-  props: any
-}
+  element: HTMLElement;
+  props: any;
+};
 
 export interface Options {
   /**
@@ -138,6 +138,11 @@ export interface Options {
 
 export type OptionsProp = Optional<Options>;
 
+type WordHighlight = {
+  text: string;
+  name: any;
+};
+
 export interface Props {
   /**
    * Callbacks to control various word properties and behaviors.
@@ -173,6 +178,11 @@ export interface Props {
    * An array of words to block
    */
   wordsToBlock?: string[];
+
+  /**
+   * An array of words to highlight
+   */
+  wordsToHighlight?: WordHighlight[];
 }
 
 export interface Word {
