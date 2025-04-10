@@ -13,7 +13,7 @@
 // Word cloud layout by Jason Davies, https://www.jasondavies.com/wordcloud/
 // Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
 
-import { dispatch } from 'd3-dispatch';
+import { dispatch } from "d3-dispatch";
 
 const cloudRadians = Math.PI / 180,
   cw = (1 << 11) >> 5,
@@ -31,7 +31,7 @@ export default function Cloud() {
     spiral = archimedeanSpiral,
     words = [],
     timeInterval = Infinity,
-    event = dispatch('word', 'end'),
+    event = dispatch("word", "end"),
     timer = null,
     random = Math.random,
     cloud = {},
@@ -75,7 +75,7 @@ export default function Cloud() {
         cloudSprite(contextAndRatio, d, data, i);
         if (d.hasText && place(board, d, bounds)) {
           tags.push(d);
-          event.call('word', cloud, d);
+          event.call("word", cloud, d);
           if (bounds) cloudBounds(bounds, d);
           else
             bounds = [
@@ -103,7 +103,7 @@ export default function Cloud() {
         setTimeout(() => loop(i + 1), 0);
       } else {
         cloud.stop();
-        event.call('end', cloud, tags, bounds);
+        event.call("end", cloud, tags, bounds);
       }
     }
     setTimeout(() => loop(0), 0);
@@ -128,20 +128,25 @@ export default function Cloud() {
   function getContext(canvas) {
     canvas.width = canvas.height = 1;
     const ratio = Math.sqrt(
-      canvas.getContext('2d').getImageData(0, 0, 1, 1).data.length >> 2,
+      canvas
+        .getContext("2d", { willReadFrequently: true })
+        .getImageData(0, 0, 1, 1).data.length >> 2,
     );
     canvas.width = (cw << 5) / ratio;
     canvas.height = ch / ratio;
 
-    const context = canvas.getContext('2d');
-    context.fillStyle = context.strokeStyle = 'red';
-    context.textAlign = 'center';
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    context.fillStyle = context.strokeStyle = "red";
+    context.textAlign = "center";
 
     return { context: context, ratio: ratio };
   }
 
   function place(board, tag, bounds) {
-    let perimeter = [{ x: 0, y: 0 }, { x: size[0], y: size[1] }],
+    let perimeter = [
+        { x: 0, y: 0 },
+        { x: size[0], y: size[1] },
+      ],
       startX = tag.x,
       startY = tag.y,
       maxDelta = Math.sqrt(size[0] * size[0] + size[1] * size[1]),
@@ -259,11 +264,11 @@ function cloudText(d) {
 }
 
 function cloudFont() {
-  return 'serif';
+  return "serif";
 }
 
 function cloudFontNormal() {
-  return 'normal';
+  return "normal";
 }
 
 function cloudFontSize(d) {
@@ -296,13 +301,13 @@ function cloudSprite(contextAndRatio, d, data, di) {
     c.save();
     c.font =
       d.style +
-      ' ' +
+      " " +
       d.weight +
-      ' ' +
+      " " +
       ~~((d.size + 1) / ratio) +
-      'px ' +
+      "px " +
       d.font;
-    var w = c.measureText(d.text + 'm').width * ratio,
+    var w = c.measureText(d.text + "m").width * ratio,
       h = d.size << 1;
     if (d.rotate) {
       const sr = Math.sin(d.rotate * cloudRadians),
@@ -463,11 +468,11 @@ function zeroArray(n) {
 }
 
 function cloudCanvas() {
-  return document.createElement('canvas');
+  return document.createElement("canvas");
 }
 
 function functor(d) {
-  return typeof d === 'function'
+  return typeof d === "function"
     ? d
     : function() {
         return d;
